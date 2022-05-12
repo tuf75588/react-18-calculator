@@ -1,11 +1,12 @@
 import React from 'react';
 
 function App() {
-  const [displayValue, setDislpayValue] = React.useState('0');
+  const [displayValue, setDislpayValue] = React.useState<any | null>('0');
   const addDigit = (digit: string) => setDislpayValue((previousState: string) => {
      return previousState === '0' ? digit : previousState + digit;
   }); 
   const clearDisplay = () => setDislpayValue('0');
+  const toggleSign = () => setDislpayValue(parseInt(displayValue) * -1);
   return (
     <div className='calc'>
       <div className='calc-btn display'>{displayValue}</div>
@@ -13,7 +14,7 @@ function App() {
         <button onClick={() => clearDisplay()}>AC</button>
       </div>
       <div className='calc-btn'>
-        <button>+/-</button>
+        <button onClick={() => toggleSign()}>+/-</button>
       </div>
       <div className='calc-btn'>
         <button>%</button>
