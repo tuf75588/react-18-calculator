@@ -6,7 +6,11 @@ function App() {
      return previousState === '0' ? digit : previousState + digit;
   }); 
   const clearDisplay = () => setDislpayValue('0');
-  const toggleSign = () => setDislpayValue(parseInt(displayValue) * -1);
+  const toggleSign = () => setDislpayValue(displayValue * -1);
+  //decimal point 
+  const handleDot = () => {
+    setDislpayValue(displayValue + '.')
+  }
   return (
     <div className='calc'>
       <div className='calc-btn display'>{displayValue}</div>
@@ -44,7 +48,7 @@ function App() {
         <button onClick={() => addDigit('6')}>6</button>
       </div>
       <div className='calc-btn'>
-        <button onClick={() => addDigit('7')}>-</button>
+        <button onClick={() => addDigit('')}>-</button>
       </div>
       <div className='calc-btn'>
         <button onClick={() => addDigit('1')}>1</button>
@@ -56,13 +60,13 @@ function App() {
         <button onClick={() => addDigit('3')}>3</button>
       </div>
       <div className='calc-btn'>
-        <button onClick={() => addDigit('7')}>+</button>
+        <button onClick={() => addDigit('')}>+</button>
       </div>
       <div className='calc-btn zero'>
         <button onClick={() => addDigit('0')}>0</button>
       </div>
       <div className='calc-btn'>
-        <button>.</button>
+        <button onClick={() => handleDot()}>.</button>
       </div>
       <div className='calc-btn'>
         <button>=</button>
