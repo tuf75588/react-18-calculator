@@ -1,11 +1,16 @@
 import React from 'react';
 
 function App() {
+  const [displayValue, setDislpayValue] = React.useState('0');
+  const addDigit = (digit: string) => setDislpayValue((previousState: string) => {
+     return previousState === '0' ? digit : previousState + digit;
+  }); 
+  const clearDisplay = () => setDislpayValue('0');
   return (
     <div className='calc'>
-      <div className='calc-btn display'>0</div>
+      <div className='calc-btn display'>{displayValue}</div>
       <div className='calc-btn'>
-        <button>AC</button>
+        <button onClick={() => clearDisplay()}>AC</button>
       </div>
       <div className='calc-btn'>
         <button>+/-</button>
@@ -17,43 +22,43 @@ function App() {
         <button>/</button>
       </div>
       <div className='calc-btn'>
-        <button>7</button>
+        <button onClick={() => addDigit('7')}>7</button>
       </div>
       <div className='calc-btn'>
-        <button>8</button>
+        <button onClick={() => addDigit('8')}>8</button>
       </div>
       <div className='calc-btn'>
-        <button>9</button>
+        <button onClick={() => addDigit('9')}>9</button>
       </div>
       <div className='calc-btn'>
-        <button>X</button>
+        <button onClick={() => addDigit('')}>X</button>
       </div>
       <div className='calc-btn'>
-        <button>4</button>
+        <button onClick={() => addDigit('4')}>4</button>
       </div>
       <div className='calc-btn'>
-        <button>5</button>
+        <button onClick={() => addDigit('5')}>5</button>
       </div>
       <div className='calc-btn'>
-        <button>6</button>
+        <button onClick={() => addDigit('6')}>6</button>
       </div>
       <div className='calc-btn'>
-        <button>-</button>
+        <button onClick={() => addDigit('7')}>-</button>
       </div>
       <div className='calc-btn'>
-        <button>1</button>
+        <button onClick={() => addDigit('1')}>1</button>
       </div>
       <div className='calc-btn'>
-        <button>2</button>
+        <button onClick={() => addDigit('2')}>2</button>
       </div>
       <div className='calc-btn'>
-        <button>3</button>
+        <button onClick={() => addDigit('3')}>3</button>
       </div>
       <div className='calc-btn'>
-        <button>+</button>
+        <button onClick={() => addDigit('7')}>+</button>
       </div>
       <div className='calc-btn zero'>
-        <button>0</button>
+        <button onClick={() => addDigit('0')}>0</button>
       </div>
       <div className='calc-btn'>
         <button>.</button>
