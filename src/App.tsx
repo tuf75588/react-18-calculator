@@ -2,10 +2,11 @@ import React from 'react';
 
 function App() {
   const [displayValue, setDislpayValue] = React.useState<any | null>('0');
+  const [operation, setOperation] = React.useState<string | null>('');
+  const [waitingForOperand, setWaitingForOperand] = React.useState(false);
   const addDigit = (digit: string) => setDislpayValue((previousState: string) => {
      return previousState === '0' ? digit : previousState + digit;
   }); 
-  const [operation, setOperation] = React.useState<string | null>('')
   const clearDisplay = () => setDislpayValue('0');
   const toggleSign = () => setDislpayValue(displayValue * -1);
   //decimal point 
@@ -17,8 +18,12 @@ function App() {
       setDislpayValue(String(toNum / 100));
   }
   return (
+    <React.Fragment>
+    <pre style={{color: 'white', fontSize: '1.2rem'}}>{JSON.stringify({operation, displayValue, waitingForOperand}, null, 2)}</pre>
     <div className='calc'>
-      <div className='calc-btn display'>{displayValue}</div>
+    
+      <div className='calc-btn display'>{displayValue}
+      </div>
       <div className='calc-btn'>
         <button onClick={() => clearDisplay()}>AC</button>
       </div>
@@ -77,6 +82,7 @@ function App() {
         <button>=</button>
       </div>
     </div>
+    </React.Fragment>
   );
 }
 
