@@ -3,20 +3,25 @@ import React from 'react';
 function App() {
   const [value, setValue] = React.useState<any | null>(0);
   const [displayValue, setDisplay] = React.useState<any | null>('0');
-  const [operation, setOperation] = React.useState<string | null>('');
+  const [operator, setOperator] = React.useState<any | null>(null);
   const [waitingForOperand, setWaitingForOperand] = React.useState(false);
-  const addDigit = (digit: string) => {
+
+  const inputDigit = (digit: string) => {
     if (waitingForOperand) {
-      setValue(digit);
-      setWaitingForOperand(false);
-    } else {
-      setDisplay(displayValue === '0' ? digit : String(displayValue) + digit);
+      setDisplay(String(digit));
       setWaitingForOperand(false);
     }
   };
+
   const clearDisplay = () => {
     setDisplay('0');
     setOperation('');
+  };
+  const clearAll = () => {
+    setValue(0);
+    setDisplay('0');
+    setOperator(null);
+    setWaitingForOperand(false);
   };
   const toggleSign = () => setDisplay(displayValue * -1);
   //decimal point
@@ -36,27 +41,20 @@ function App() {
   const performOperation = (operator: string) => {
     setOperation(operator);
     setWaitingForOperand(true);
-    const operations: any = {
-      '/': (previousValue: number, nextValue: number) =>
-        previousValue / nextValue,
-      '*': (previousValue: number, nextValue: number) =>
-        previousValue * nextValue,
-      '+': (previousValue: number, nextValue: number) =>
-        previousValue + nextValue,
-      '=': (nextValue: number) => nextValue,
-    };
     const nextValue = parseFloat(displayValue);
     const prevValue = parseFloat(value);
+    const operations: any = {
+      '/': (previousValue: number, nextValue: number) => previousValue / nextValue,
+      '*': (previousValue: number, nextValue: number) => previousValue * nextValue,
+      '+': (previousValue: number, nextValue: number) => previousValue + nextValue,
+      '=': (nextValue: number) => nextValue,
+    };
     const computedValue = operations[operator](nextValue, prevValue);
   };
   return (
     <React.Fragment>
       <pre style={{ color: 'white', fontSize: '1.2rem' }}>
-        {JSON.stringify(
-          { operation, displayValue, waitingForOperand, value },
-          null,
-          2
-        )}
+        {JSON.stringify({ operation, displayValue, waitingForOperand, value }, null, 2)}
       </pre>
       <div className="calc">
         <div className="calc-btn display">{displayValue}</div>
@@ -70,10 +68,7 @@ function App() {
           <button onClick={() => inputPercent()}>%</button>
         </div>
         <div className="calc-btn">
-          <button
-            className={operation === '/' ? 'active' : ''}
-            onClick={() => performOperation('/')}
-          >
+          <button className={operation === '/' ? 'active' : ''} onClick={() => performOperation('/')}>
             /
           </button>
         </div>
@@ -87,10 +82,7 @@ function App() {
           <button onClick={() => addDigit('9')}>9</button>
         </div>
         <div className="calc-btn">
-          <button
-            className={operation === '*' ? 'active' : ''}
-            onClick={() => performOperation('*')}
-          >
+          <button className={operation === '*' ? 'active' : ''} onClick={() => performOperation('*')}>
             X
           </button>
         </div>
@@ -104,10 +96,7 @@ function App() {
           <button onClick={() => addDigit('6')}>6</button>
         </div>
         <div className="calc-btn">
-          <button
-            className={operation === '-' ? 'active' : ''}
-            onClick={() => performOperation('-')}
-          >
+          <button className={operation === '-' ? 'active' : ''} onClick={() => performOperation('-')}>
             -
           </button>
         </div>
@@ -121,10 +110,7 @@ function App() {
           <button onClick={() => addDigit('3')}>3</button>
         </div>
         <div className="calc-btn">
-          <button
-            className={operation === '+' ? 'active' : ''}
-            onClick={() => performOperation('+')}
-          >
+          <button className={operation === '+' ? 'active' : ''} onClick={() => performOperation('+')}>
             +
           </button>
         </div>
