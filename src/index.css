@@ -31,7 +31,6 @@ code {
 .calc-btn {
   border: 1px solid black;
   color: #f0f0f0;
-
 }
 .calc-btn button {
   width: 100%;
@@ -51,4 +50,11 @@ code {
 
 .zero {
   grid-column: 1 /3;
+}
+
+.active {
+  background: orange;
+  transition: all;
+  transition-duration: 1000ms;
+  transition-delay: ease-in;
 }

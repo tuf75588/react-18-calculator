@@ -4,19 +4,39 @@ function App() {
   const [displayValue, setDisplay] = React.useState<any | null>('0');
   const [operation, setOperation] = React.useState<string | null>('');
   const [waitingForOperand, setWaitingForOperand] = React.useState(false);
-  const addDigit = (digit: string) =>
-    setDisplay((previousState: string) => {
-      return previousState === '0' ? digit : previousState + digit;
-    });
-  const clearDisplay = () => setDisplay('0');
+  const addDigit = (digit: string) => {
+    if (waitingForOperand) {
+      setDisplay(digit);
+      setWaitingForOperand(false);
+    } else {
+      setDisplay(displayValue === '0' ? digit : String(displayValue) + digit);
+      setWaitingForOperand(false);
+    }
+  };
+  const clearDisplay = () => {
+    setDisplay('0');
+    setOperation('');
+  };
   const toggleSign = () => setDisplay(displayValue * -1);
   //decimal point
   const handleDot = () => {
-    setDisplay(displayValue + '.');
+    if (waitingForOperand) {
+      setDisplay('.');
+      setWaitingForOperand(false);
+    } else {
+      if (!/\./.test(displayValue)) {
+        setDisplay(displayValue + '.');
+      }
+    }
   };
   const inputPercent = () => {
     const toNum: number = parseFloat(displayValue);
     setDisplay(String(toNum / 100));
+  };
+
+  const performOperation = (operator: string) => {
+    setOperation(operator);
+    setWaitingForOperand(true);
   };
   return (
     <React.Fragment>
@@ -39,7 +59,12 @@ function App() {
           <button onClick={() => inputPercent()}>%</button>
         </div>
         <div className="calc-btn">
-          <button>/</button>
+          <button
+            className={operation === '/' ? 'active' : ''}
+            onClick={() => performOperation('/')}
+          >
+            /
+          </button>
         </div>
         <div className="calc-btn">
           <button onClick={() => addDigit('7')}>7</button>
@@ -51,7 +76,12 @@ function App() {
           <button onClick={() => addDigit('9')}>9</button>
         </div>
         <div className="calc-btn">
-          <button onClick={() => addDigit('')}>X</button>
+          <button
+            className={operation === '*' ? 'active' : ''}
+            onClick={() => performOperation('*')}
+          >
+            X
+          </button>
         </div>
         <div className="calc-btn">
           <button onClick={() => addDigit('4')}>4</button>
@@ -63,7 +93,12 @@ function App() {
           <button onClick={() => addDigit('6')}>6</button>
         </div>
         <div className="calc-btn">
-          <button onClick={() => setOperation('-')}>-</button>
+          <button
+            className={operation === '-' ? 'active' : ''}
+            onClick={() => performOperation('-')}
+          >
+            -
+          </button>
         </div>
         <div className="calc-btn">
           <button onClick={() => addDigit('1')}>1</button>
@@ -75,7 +110,12 @@ function App() {
           <button onClick={() => addDigit('3')}>3</button>
         </div>
         <div className="calc-btn">
-          <button onClick={() => setOperation('+')}>+</button>
+          <button
+            className={operation === '+' ? 'active' : ''}
+            onClick={() => performOperation('+')}
+          >
+            +
+          </button>
         </div>
         <div className="calc-btn zero">
           <button onClick={() => addDigit('0')}>0</button>
