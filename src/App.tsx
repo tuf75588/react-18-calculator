@@ -1,12 +1,13 @@
 import React from 'react';
 
 function App() {
+  const [value, setValue] = React.useState<any | null>(0);
   const [displayValue, setDisplay] = React.useState<any | null>('0');
   const [operation, setOperation] = React.useState<string | null>('');
   const [waitingForOperand, setWaitingForOperand] = React.useState(false);
   const addDigit = (digit: string) => {
     if (waitingForOperand) {
-      setDisplay(digit);
+      setValue(digit);
       setWaitingForOperand(false);
     } else {
       setDisplay(displayValue === '0' ? digit : String(displayValue) + digit);
@@ -23,10 +24,8 @@ function App() {
     if (waitingForOperand) {
       setDisplay('.');
       setWaitingForOperand(false);
-    } else {
-      if (!/\./.test(displayValue)) {
-        setDisplay(displayValue + '.');
-      }
+    } else if (!/\./.test(displayValue)) {
+      setDisplay(displayValue + '.');
     }
   };
   const inputPercent = () => {
@@ -37,12 +36,24 @@ function App() {
   const performOperation = (operator: string) => {
     setOperation(operator);
     setWaitingForOperand(true);
+    const operations: any = {
+      '/': (previousValue: number, nextValue: number) =>
+        previousValue / nextValue,
+      '*': (previousValue: number, nextValue: number) =>
+        previousValue * nextValue,
+      '+': (previousValue: number, nextValue: number) =>
+        previousValue + nextValue,
+      '=': (nextValue: number) => nextValue,
+    };
+    const nextValue = parseFloat(displayValue);
+    const prevValue = parseFloat(value);
+    const computedValue = operations[operator](nextValue, prevValue);
   };
   return (
     <React.Fragment>
       <pre style={{ color: 'white', fontSize: '1.2rem' }}>
         {JSON.stringify(
-          { operation, displayValue, waitingForOperand },
+          { operation, displayValue, waitingForOperand, value },
           null,
           2
         )}
