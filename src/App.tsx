@@ -15,9 +15,9 @@ function App() {
     }
   };
 
-  const clearDisplay = () => {
-    setDisplay('0');
-  };
+  // const clearDisplay = () => {
+  //   setDisplay('0');
+  // };
   const clearAll = () => {
     setValue(null);
     setDisplay('0');
@@ -50,7 +50,7 @@ function App() {
     if (value === null) {
       setValue(inputValue);
     } else if (operator) {
-      const currentValue = value || 0;
+      const currentValue = value ?? 0;
       const newValue = operations[operator](currentValue, inputValue);
       setValue(newValue);
 
@@ -61,9 +61,6 @@ function App() {
   };
   return (
     <React.Fragment>
-      <pre style={{ color: 'white', fontSize: '1.2rem' }}>
-        {JSON.stringify({ operator, displayValue, waitingForOperand, value }, null, 2)}
-      </pre>
       <div className="calc">
         <div className="calc-btn display">{displayValue}</div>
         <div className="calc-btn">
